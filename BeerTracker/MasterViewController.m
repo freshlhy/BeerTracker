@@ -6,8 +6,8 @@
 #import "AMRating/AMRatingControl.h"
 #import "BeerViewController.h"
 #import "ImageSaver.h"
-#import "Beer.h";
-#import "BeerDetails.h";
+#import "Beer.h"
+#import "BeerDetails.h"
 
 @interface MasterViewController ()<UISearchBarDelegate>
 @property (nonatomic) NSMutableArray *beers;
@@ -43,7 +43,9 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	BeerViewController *upcoming = segue.destinationViewController;
     if ([[segue identifier] isEqualToString:@"editBeer"]) {
-    
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        Beer *beer = self.beers[indexPath.row];
+        upcoming.beer = beer;
 	} else if ([segue.identifier isEqualToString:@"addBeer"]) {
 		upcoming.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonSystemItemCancel target:upcoming action:@selector(cancelAdd)];
 		upcoming.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Done" style:UIBarButtonSystemItemAdd target:upcoming action:@selector(addNewBeer)];
@@ -57,7 +59,7 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 }
 
 - (void)saveContext {
-
+    [[NSManagedObjectContext defaultContext] saveToPersistentStoreAndWait];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -76,7 +78,20 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 }
 
 - (void)configureCell:(UITableViewCell*)cell atIndex:(NSIndexPath*)indexPath {
-
+    Beer *beer = self.beers[indexPath.row];
+    cell.textLabel.text = beer.name;
+    
+    AMRatingControl *ratingControl;
+    if (![cell viewWithTag:20]) {
+        ratingControl = [[AMRatingControl alloc] initWithLocation:CGPointMake(190, 10) emptyImage:[UIImage imageNamed:@"beermug-empty"] solidImage:[UIImage imageNamed:@"beermug-full"] andMaxRating:5];
+        ratingControl.tag = 20;
+        ratingControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        ratingControl.userInteractionEnabled = NO;
+        [cell addSubview:ratingControl];
+    } else {
+        ratingControl = (AMRatingControl *)[cell viewWithTag:20];
+    }
+    ratingControl.rating = [beer.beerDetails.rating integerValue];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -85,7 +100,15 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-
+        Beer *beerToRemove = self.beers[indexPath.row];
+        if (beerToRemove.beerDetails.image) {
+            [ImageSaver deleteImageAtPath:beerToRemove.beerDetails.image];
+        }
+        [beerToRemove deleteEntity];
+        [self saveContext];
+        [self.beers removeObjectAtIndex:indexPath.row];
+        [tableView deleteRowsAtIndexPaths:@[indexPath]
+                         withRowAnimation:UITableViewRowAnimationFade];
     }
 }
 
@@ -120,6 +143,12 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 }
 
 - (void)doSearch {
+    // 1. Get the text from the search bar.
+	NSString *searchText = self.searchBar.text;
+	// 2. Do a fetch on the beers that match Predicate criteria.
+	// In this case, if the name contains the string
+	self.beers = [[Beer findAllSortedBy:SORT_KEY_NAME ascending:YES withPredicate:[NSPredicate predicateWithFormat:@"name contains[c] %@", searchText] inContext:[NSManagedObjectContext defaultContext]] mutableCopy];
+	// 3. Reload the table to show the query results.
 	[self.tableView reloadData];
 }
 

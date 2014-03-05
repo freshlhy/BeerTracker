@@ -4,6 +4,9 @@
 
 #import "AppDelegate.h"
 #import "ImageSaver.h"
+#import "Beer.h"
+#import "BeerDetails.h"
+
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -12,6 +15,43 @@
 	[[UINavigationBar appearance] setBarTintColor:[UIColor colorWithRed:0.22f green:0.17f blue:0.13f alpha:1.00f]];
 	[[UINavigationBar appearance] setTitleTextAttributes:@{NSForegroundColorAttributeName: [UIColor whiteColor]}];
     [MagicalRecord setupCoreDataStackWithStoreNamed:@"BeerModel"];
+    // Setup App with prefilled Beer items.
+    if (![[NSUserDefaults standardUserDefaults] objectForKey:@"MR_HasPrefilledBeers"]) {
+        // Create Blond Ale
+        Beer *blondAle = [Beer createEntity];
+        blondAle.name  = @"Blond Ale";
+        blondAle.beerDetails = [BeerDetails createEntity];
+        blondAle.beerDetails.rating = @4;
+        [ImageSaver saveImageToDisk:[UIImage imageNamed:@"blond.jpg"] andToBeer:blondAle];
+        
+        // Create Wheat Beer
+        Beer *wheatBeer = [Beer createEntity];
+        wheatBeer.name  = @"Wheat Beer";
+        wheatBeer.beerDetails = [BeerDetails createEntity];
+        wheatBeer.beerDetails.rating = @2;
+        [ImageSaver saveImageToDisk:[UIImage imageNamed:@"wheat.jpg"] andToBeer:wheatBeer];
+        
+        // Create Pale Lager
+        Beer *paleLager = [Beer createEntity];
+        paleLager.name  = @"Pale Lager";
+        paleLager.beerDetails = [BeerDetails createEntity];
+        paleLager.beerDetails.rating = @3;
+        [ImageSaver saveImageToDisk:[UIImage imageNamed:@"pale.jpg"] andToBeer:paleLager];
+        
+        // Create Stout
+        Beer *stout = [Beer createEntity];
+        stout.name  = @"Stout Lager";
+        stout.beerDetails = [BeerDetails createEntity];
+        stout.beerDetails.rating = @5;
+        [ImageSaver saveImageToDisk:[UIImage imageNamed:@"stout.jpg"] andToBeer:stout];
+        
+        // Save Managed Object Context
+        [[NSManagedObjectContext defaultContext] saveToPersistentStoreWithCompletion:nil];
+        
+        // Set User Default to prevent another preload of data on startup.
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"MR_HasPrefilledBeers"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
     return YES;
 }
 							
