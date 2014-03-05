@@ -6,6 +6,8 @@
 #import "AMRating/AMRatingControl.h"
 #import "BeerViewController.h"
 #import "ImageSaver.h"
+#import "Beer.h";
+#import "BeerDetails.h";
 
 @interface MasterViewController ()<UISearchBarDelegate>
 @property (nonatomic) NSMutableArray *beers;
@@ -27,6 +29,7 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 	if ([[[NSUserDefaults standardUserDefaults] objectForKey:WB_SORT_KEY] isEqualToString:SORT_KEY_NAME]) {
 		self.segmentedControl.selectedSegmentIndex = 1;
 	}
+    [self fetchAllBeers];
 	[self.tableView reloadData];
 }
 
@@ -48,7 +51,9 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 }
 
 - (void)fetchAllBeers {
-
+    NSString *sortKey = [[NSUserDefaults standardUserDefaults] objectForKey:WB_SORT_KEY];
+    BOOL ascending = [sortKey isEqualToString:SORT_KEY_RATING] ? NO : YES;
+    self.beers = [[Beer findAllSortedBy:sortKey ascending:ascending] mutableCopy];
 }
 
 - (void)saveContext {

@@ -54,6 +54,7 @@
 }
 
 - (void)cancelAdd {
+    [self.beer deleteEntity];
 	[self.navigationController popViewControllerAnimated:YES];
 }
 
@@ -62,7 +63,14 @@
 }
 
 - (void)saveContext {
-
+    [[NSManagedObjectContext defaultContext] saveToPersistentStoreWithCompletion:^(BOOL success, NSError *error) {
+        if (success) {
+            NSLog(@"You successfully saved your context.");
+        } else if (error) {
+            NSLog(@"Error saving context: %@", error);
+        }
+    }];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
