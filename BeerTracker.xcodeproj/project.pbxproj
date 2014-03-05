@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		590773CB18C7083800401FF8 /* BeerModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 590773C918C7083800401FF8 /* BeerModel.xcdatamodeld */; };
+		590773CE18C70A6800401FF8 /* Beer.m in Sources */ = {isa = PBXBuildFile; fileRef = 590773CD18C70A6800401FF8 /* Beer.m */; };
+		590773D118C70A6900401FF8 /* BeerDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 590773D018C70A6900401FF8 /* BeerDetails.m */; };
 		A150E34517F11FA400BF5BC1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A150E34417F11FA400BF5BC1 /* Foundation.framework */; };
 		A150E34717F11FA400BF5BC1 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A150E34617F11FA400BF5BC1 /* CoreGraphics.framework */; };
 		A150E34917F11FA400BF5BC1 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A150E34817F11FA400BF5BC1 /* UIKit.framework */; };
@@ -69,6 +72,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		590773CA18C7083800401FF8 /* BeerModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeerModel.xcdatamodel; sourceTree = "<group>"; };
+		590773CC18C70A6800401FF8 /* Beer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Beer.h; sourceTree = "<group>"; };
+		590773CD18C70A6800401FF8 /* Beer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Beer.m; sourceTree = "<group>"; };
+		590773CF18C70A6900401FF8 /* BeerDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BeerDetails.h; sourceTree = "<group>"; };
+		590773D018C70A6900401FF8 /* BeerDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BeerDetails.m; sourceTree = "<group>"; };
 		A150E34117F11FA400BF5BC1 /* BeerTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeerTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A150E34417F11FA400BF5BC1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		A150E34617F11FA400BF5BC1 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -232,6 +240,11 @@
 				A150E38117F1208300BF5BC1 /* Preloaded Images */,
 				A150E38517F1245900BF5BC1 /* AMRating */,
 				A150E34B17F11FA400BF5BC1 /* Supporting Files */,
+				590773C918C7083800401FF8 /* BeerModel.xcdatamodeld */,
+				590773CF18C70A6900401FF8 /* BeerDetails.h */,
+				590773D018C70A6900401FF8 /* BeerDetails.m */,
+				590773CC18C70A6800401FF8 /* Beer.h */,
+				590773CD18C70A6800401FF8 /* Beer.m */,
 			);
 			path = BeerTracker;
 			sourceTree = "<group>";
@@ -491,6 +504,7 @@
 				A15678581849095D00DB62C8 /* MagicalRecord+Actions.m in Sources */,
 				A156785B1849095D00DB62C8 /* MagicalRecord+Options.m in Sources */,
 				A15678561849095D00DB62C8 /* NSPersistentStore+MagicalRecord.m in Sources */,
+				590773D118C70A6900401FF8 /* BeerDetails.m in Sources */,
 				A150E35517F11FA400BF5BC1 /* AppDelegate.m in Sources */,
 				A156785A1849095D00DB62C8 /* MagicalRecord+iCloud.m in Sources */,
 				A15678471849095D00DB62C8 /* NSEntityDescription+MagicalDataImport.m in Sources */,
@@ -507,7 +521,9 @@
 				A15678591849095D00DB62C8 /* MagicalRecord+ErrorHandling.m in Sources */,
 				A15678571849095D00DB62C8 /* NSPersistentStoreCoordinator+MagicalRecord.m in Sources */,
 				A156784D1849095D00DB62C8 /* NSManagedObject+MagicalDataImport.m in Sources */,
+				590773CE18C70A6800401FF8 /* Beer.m in Sources */,
 				A15678521849095D00DB62C8 /* NSManagedObjectContext+MagicalRecord.m in Sources */,
+				590773CB18C7083800401FF8 /* BeerModel.xcdatamodeld in Sources */,
 				A156784C1849095D00DB62C8 /* NSManagedObject+MagicalAggregation.m in Sources */,
 				A156785D1849095D00DB62C8 /* MagicalRecord+ShorthandSupport.m in Sources */,
 				A15678501849095D00DB62C8 /* NSManagedObject+MagicalRequests.m in Sources */,
@@ -740,6 +756,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		590773C918C7083800401FF8 /* BeerModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				590773CA18C7083800401FF8 /* BeerModel.xcdatamodel */,
+			);
+			currentVersion = 590773CA18C7083800401FF8 /* BeerModel.xcdatamodel */;
+			path = BeerModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = A150E33917F11FA400BF5BC1 /* Project object */;
 }

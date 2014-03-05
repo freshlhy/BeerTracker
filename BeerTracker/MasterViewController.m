@@ -5,6 +5,7 @@
 #import "MasterViewController.h"
 #import "AMRating/AMRatingControl.h"
 #import "BeerViewController.h"
+#import "ImageSaver.h"
 
 @interface MasterViewController ()<UISearchBarDelegate>
 @property (nonatomic) NSMutableArray *beers;
@@ -94,7 +95,14 @@ NSString * const WB_SORT_KEY     = @"WB_SORT_KEY";
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-
+	[self.searchBar resignFirstResponder];
+	// Clear search bar text
+	self.searchBar.text = @"";
+	// Hide the cancel button
+	self.searchBar.showsCancelButton = NO;
+	// Do a default fetch of the beers
+	[self fetchAllBeers];
+	[self.tableView reloadData];
 }
 
 - (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar {
